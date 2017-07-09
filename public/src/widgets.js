@@ -42,7 +42,7 @@
 				var html = '';
 
 				for (var i = 0; i < renderedWidgets.length; i += 1) {
-					html += templates.parse(renderedWidgets[i].html, {});
+					html += renderedWidgets[i].html;
 				}
 
 				var area = $('#content [widget-area="' + location + '"]');

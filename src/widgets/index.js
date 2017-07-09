@@ -68,15 +68,14 @@ function renderWidget(widget, uid, area, req, res, callback) {
 				winston.warn('[widgets.render] passing a string is deprecated!, filter:widget.render:' + widget.widget + '. Please set hookData.html in your plugin.');
 			}
 
-			if (widget.data.container && widget.data.container.match('{body}')) {
+			if (widget.data.container && widget.data.container.includes('{body}')) {
 				translator.translate(widget.data.title, function (title) {
-					// FIXME: use actual template files so they're precompiled
-					html = Benchpress.parse(widget.data.container, {
+					Benchpress.compileParse(widget.data.container, {
 						title: title,
 						body: html,
+					}, function (err, html) {
+						next(err, { html: html });
 					});
-
-					next(null, { html: html });
 				});
 			} else {
 				next(null, { html: html });
